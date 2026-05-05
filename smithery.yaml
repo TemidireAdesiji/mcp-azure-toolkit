@@ -1,0 +1,29 @@
+# Smithery.ai registry configuration - https://smithery.ai
+# Lets the server be discovered and launched via the MCP registry.
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      AZURE_STORAGE_ACCOUNT_URL:
+        type: string
+        description: Storage account URL, e.g. https://acct.blob.core.windows.net
+      AZURE_KEY_VAULT_URL:
+        type: string
+        description: Key Vault URL, e.g. https://vault.vault.azure.net
+      AZURE_SERVICE_BUS_NAMESPACE:
+        type: string
+        description: Service Bus namespace, e.g. ns.servicebus.windows.net
+      AZURE_SUBSCRIPTION_ID:
+        type: string
+        description: Azure subscription id for resource group tools
+  commandFunction: |
+    (config) => ({
+      command: "mcp-azure-toolkit",
+      env: {
+        AZURE_STORAGE_ACCOUNT_URL: config.AZURE_STORAGE_ACCOUNT_URL || "",
+        AZURE_KEY_VAULT_URL: config.AZURE_KEY_VAULT_URL || "",
+        AZURE_SERVICE_BUS_NAMESPACE: config.AZURE_SERVICE_BUS_NAMESPACE || "",
+        AZURE_SUBSCRIPTION_ID: config.AZURE_SUBSCRIPTION_ID || ""
+      }
+    })
